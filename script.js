@@ -130,7 +130,7 @@ function createParticleBackground() {
             overflow: hidden;
             z-index: 1;
         }
-        .particle {
+        .particle {}
             position: absolute;
             background-color: rgba(0, 188, 212, 0.3);
             border-radius: 50%;
