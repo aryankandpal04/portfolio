@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,41 +10,47 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 
     <style>
-    /* Preloader */
-    .preloader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #ffffff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    
-    .preloader.fade-out {
-        opacity: 0;
-        visibility: hidden;
-    }
-    
-    .loader {
-        width: 60px;
-        height: 60px;
-        border: 5px solid #E0F7FA;
-        border-top: 5px solid #00BCD4;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    /* Cursor */
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #E0F7FA;
+            border-top: 5px solid #00BCD4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Cursor */
+        /*
     .custom-cursor {
         position: fixed;
         width: 20px;
@@ -67,18 +74,21 @@
         transform: translate(-50%, -50%);
         transition: 0.1s;
     }
-</style>
+    */
+    </style>
 </head>
+
 <body>
     <!-- Preloader -->
     <div class="preloader">
         <div class="loader"></div>
     </div>
-    
+
     <!-- Custom Cursor -->
+    <!-- 
     <div class="custom-cursor"></div>
     <div class="custom-cursor-follower"></div>
-
+     -->
     <!-- Header -->
     <header>
         <div class="container">
@@ -106,18 +116,22 @@
     <section id="home" class="hero">
         <div class="container">
             <div class="hero-content">
-                <span class="highlight"><h1>Hi, I'm Aryan Kandpal</h1></span>
-                <h2>Frontend Developer</h2>
-                <p>I build exceptional digital experiences that live at the intersection of design and technology.</p>
+                <span class="highlight">
+                    <h1>Hi, I'm Aryan Kandpal</h1>
+                </span>
+                <h2>Web Developer</h2>
+                <p>Transforming ideas into powerful, scalable, and visually stunning web solutions with a passion for problem-solving.</p>
                 <div class="cta-buttons">
                     <a href="#projects" class="btn primary-btn">View My Work</a>
                     <a href="#contact" class="btn secondary-btn">Contact Me</a>
                 </div>
                 <div class="social-links">
-                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/aryankandpal04" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/aryan-kandpal-a7227424b/" target="_blank"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/aryan_kandpal" target="_blank"><i
+                            class="fab fa-instagram"></i></a>
                     <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-dribbble"></i></a>
                 </div>
             </div>
             <div class="hero-image">
@@ -139,9 +153,14 @@
                 </div>
                 <div class="about-text">
                     <h3>Who am I?</h3>
-                    <p>I'm a passionate Frontend Developer based in New York with 5 years of experience creating engaging and responsive web applications.</p>
-                    <p>My journey in web development started when I built my first website at the age of 16. Since then, I've been constantly learning and improving my skills to deliver high-quality digital experiences.</p>
-                    <p>When I'm not coding, you can find me hiking, reading sci-fi novels, or experimenting with new recipes in the kitchen.</p>
+                    <p>I'm a passionate Web Developer from Haldwani, Uttarakhand, with a strong interest in building
+                        modern, responsive, and user-friendly web applications.</p>
+                    <p>My journey in web development started with my curiosity about how websites work. Over time, I
+                        have honed my skills in front-end and back-end development, working with technologies like HTML,
+                        CSS, JavaScript, Django, and MongoDB.</p>
+                    <p>Beyond coding, I love exploring new technologies, contributing to open-source projects, and
+                        sharing my knowledge with the developer community.</p>
+
                     <div class="personal-info">
                         <div class="info-item">
                             <span class="info-title">Name:</span>
@@ -287,13 +306,15 @@
                         <img src="https://via.placeholder.com/600x400" alt="Document-converter-editor-website">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="https://github.com/aryankandpal04/DOCCON" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://github.com/aryankandpal04/DOCCON" target="_blank"><i
+                                        class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="project-info">
                         <h3>Document Converter & Editor</h3>
-                        <p>A fully responsive Document Converter & Editor website built with HTML, CSS, JS(vanilla) and Python(flask)</p>
+                        <p>A fully responsive Document Converter & Editor website built with HTML, CSS, JS(vanilla) and
+                            Python(flask)</p>
                         <div class="project-tags">
                             <span>HTML5</span>
                             <span>CSS3</span>
@@ -416,7 +437,8 @@
             <div class="contact-content">
                 <div class="contact-info">
                     <h3>Let's Talk About Your Project</h3>
-                    <p>Feel free to reach out if you're looking for a developer, have a question, or just want to connect.</p>
+                    <p>Feel free to reach out if you're looking for a developer, have a question, or just want to
+                        connect.</p>
                     <div class="contact-details">
                         <div class="contact-item">
                             <div class="contact-icon">
@@ -424,7 +446,7 @@
                             </div>
                             <div class="contact-text">
                                 <h4>Location</h4>
-                                <p>New York, NY, USA</p>
+                                <p>Haldwani, Nainital, Uttarakhand, India - 263139</p>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -442,15 +464,17 @@
                             </div>
                             <div class="contact-text">
                                 <h4>Phone</h4>
-                                <p>+1 (555) 123-4567</p>
+                                <p>+91 9027202971</p>
                             </div>
                         </div>
                     </div>
                     <div class="social-links">
-                        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/aryankandpal04" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/aryan-kandpal-a7227424b/" target="_blank"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/aryan_kandpal" target="_blank"><i
+                                class="fab fa-instagram"></i></a>
                         <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-dribbble"></i></a>
                     </div>
                 </div>
                 <div class="contact-form">
@@ -495,5 +519,5 @@
 
     <script src="script.js"></script>
 </body>
-</html>
 
+</html>

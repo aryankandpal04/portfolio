@@ -558,7 +558,7 @@ window.addEventListener("load", () => {
     preloader.classList.add("fade-out")
   }, 1000)
 })
-
+/*
 // Custom cursor
 document.addEventListener("DOMContentLoaded", () => {
   const cursor = document.querySelector(".custom-cursor")
@@ -606,7 +606,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cursorFollower.style.opacity = "1"
   })
 })
-
+*/
 // Add parallax effect to hero section
 document.addEventListener("mousemove", parallax)
 
