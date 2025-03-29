@@ -8,9 +8,353 @@ const projectItems = document.querySelectorAll(".project-item")
 const contactForm = document.getElementById("contactForm")
 const skillItems = document.querySelectorAll(".skill-item")
 const progressBars = document.querySelectorAll(".progress-bar")
+const toggleSwitch = document.querySelector('#checkbox')
+const toggleSwitchMobile = document.querySelector('#checkbox-mobile')
 
-// Add page transition effect
+// Dark Mode Toggle
+function setupDarkMode() {
+  // Check for saved theme preference or prefer-color-scheme
+  const currentTheme = localStorage.getItem('theme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  
+  // Check if user has interacted with theme switch before
+  const themeVisited = localStorage.getItem('theme-visited') === 'true';
+  
+  // Set theme visited attribute
+  if (themeVisited) {
+    document.body.setAttribute('data-theme-visited', 'true');
+  }
+  
+  // Set initial theme
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    toggleSwitch.checked = true;
+    if (toggleSwitchMobile) toggleSwitchMobile.checked = true;
+    updateHeaderStyles(true);
+  }
+  
+  // Toggle theme function
+  function switchTheme(e) {
+    const isDark = e.target.checked;
+
+    // Synchronize both switches
+    if (e.target.id === 'checkbox') {
+      if (toggleSwitchMobile) toggleSwitchMobile.checked = isDark;
+    } else {
+      toggleSwitch.checked = isDark;
+    }
+
+    // Mark the theme as visited when user toggles
+    if (!document.body.hasAttribute('data-theme-visited')) {
+      document.body.setAttribute('data-theme-visited', 'true');
+      localStorage.setItem('theme-visited', 'true');
+    }
+
+    // Create a flash effect for transition
+    const flash = document.createElement('div');
+    flash.className = 'theme-flash';
+    document.body.appendChild(flash);
+    
+    // Create floating particles for transition effect
+    if (!document.querySelector('#theme-transition-particles')) {
+      createThemeTransitionParticles(isDark);
+    }
+    
+    // Set the theme with a slight delay for better animation
+    setTimeout(() => {
+      if (isDark) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      }
+      
+      updateHeaderStyles(isDark);
+      animateDarkModeTransition(isDark);
+      
+      // Add a subtle pulse animation to the theme switch
+      const themeSwitch = document.querySelector('.theme-switch');
+      themeSwitch.classList.add('theme-switched');
+      setTimeout(() => {
+        themeSwitch.classList.remove('theme-switched');
+      }, 700);
+      
+      // Close mobile menu after theme change if on mobile
+      if (window.innerWidth <= 768 && e.target.id === 'checkbox-mobile') {
+        setTimeout(() => {
+          navLinks.classList.remove('active');
+          hamburger.classList.remove('active');
+          
+          const spans = hamburger.querySelectorAll('span');
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }, 500);
+      }
+      
+      // Remove flash effect
+      setTimeout(() => {
+        flash.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(flash);
+        }, 500);
+      }, 10);
+    }, 50);
+    
+    // Add flash CSS if it doesn't exist
+    if (!document.querySelector('#theme-flash-style')) {
+      const style = document.createElement('style');
+      style.id = 'theme-flash-style';
+      style.textContent = `
+        .theme-flash {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: ${isDark ? '#ffffff' : '#121212'};
+          z-index: 9999;
+          opacity: 0.15;
+          pointer-events: none;
+          transition: opacity 0.5s ease;
+        }
+        
+        .theme-transition-particle {
+          position: absolute;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 9990;
+          opacity: 0.6;
+          animation: float-up 1.5s ease-out forwards;
+        }
+        
+        @keyframes float-up {
+          0% {
+            transform: translateY(100%);
+            opacity: 0;
+          }
+          20% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: translateY(-100vh);
+            opacity: 0;
+          }
+        }
+        
+        .theme-switched {
+          animation: switchPulse 0.7s ease-out;
+        }
+        
+        @keyframes switchPulse {
+          0% {
+            transform: scale(1) translateY(-2px);
+          }
+          50% {
+            transform: scale(1.1) translateY(-2px);
+          }
+          100% {
+            transform: scale(1) translateY(-2px);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+  
+  // Create floating particles for theme transition
+  function createThemeTransitionParticles(isDark) {
+    const particlesContainer = document.createElement('div');
+    particlesContainer.id = 'theme-transition-particles';
+    particlesContainer.style.position = 'fixed';
+    particlesContainer.style.top = '0';
+    particlesContainer.style.left = '0';
+    particlesContainer.style.width = '100%';
+    particlesContainer.style.height = '100%';
+    particlesContainer.style.pointerEvents = 'none';
+    particlesContainer.style.zIndex = '9990';
+    particlesContainer.style.overflow = 'hidden';
+    document.body.appendChild(particlesContainer);
+    
+    // Create particles
+    const particleCount = 15;
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'theme-transition-particle';
+      
+      // Random properties
+      const size = Math.random() * 30 + 10;
+      const left = Math.random() * 100;
+      const delay = Math.random() * 0.5;
+      const duration = Math.random() * 1 + 1;
+      
+      // Use theme-appropriate colors
+      let color;
+      if (isDark) {
+        // Dark mode colors - cyan/teal spectrum
+        const blueValue = 229 + Math.random() * 26;
+        color = `rgba(0, ${Math.floor(blueValue)}, 255,`;
+      } else {
+        // Light mode colors - lighter cyan/blue spectrum
+        const blueValue = 188 + Math.random() * 24;
+        color = `rgba(0, ${Math.floor(blueValue)}, 212,`;
+      }
+      
+      // Apply styles
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${left}%`;
+      particle.style.bottom = '-50px';
+      particle.style.backgroundColor = `${color} ${Math.random() * 0.5 + 0.2})`;
+      particle.style.boxShadow = `0 0 ${size/2}px ${color} 0.3)`;
+      particle.style.animationDuration = `${duration}s`;
+      particle.style.animationDelay = `${delay}s`;
+      
+      particlesContainer.appendChild(particle);
+    }
+    
+    // Remove after animation
+    setTimeout(() => {
+      document.body.removeChild(particlesContainer);
+    }, 2000);
+  }
+  
+  // Update header styles based on theme
+  function updateHeaderStyles(isDark) {
+    const header = document.querySelector('header');
+    if (!header) return;
+    
+    if (isDark) {
+      header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
+    } else {
+      header.style.boxShadow = '0 5px 20px rgba(0, 188, 212, 0.1)';
+    }
+  }
+  
+  // Add animation when switching themes
+  function animateDarkModeTransition(isDark) {
+    const elements = document.querySelectorAll('body, .hero, .about, .skills, .projects, .contact, footer, .section-header h2');
+    
+    elements.forEach(element => {
+      element.style.transition = 'background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease';
+    });
+    
+    // Handle social link icons specifically
+    const socialLinks = document.querySelectorAll('.social-links a');
+    socialLinks.forEach(link => {
+      // Trigger a subtle animation on theme change
+      link.style.transform = isDark ? 'translateY(-3px)' : 'translateY(0)';
+      setTimeout(() => {
+        link.style.transform = isDark ? 'translateY(0)' : 'translateY(0)';
+      }, 300);
+    });
+    
+    // Special animation for dark mode text elements
+    if (isDark) {
+      const headings = document.querySelectorAll('h1, h2, h3, .section-header h2');
+      headings.forEach((heading, index) => {
+        setTimeout(() => {
+          heading.style.textShadow = '0 0 15px rgba(100, 255, 218, 0.5)';
+          setTimeout(() => {
+            heading.style.textShadow = '0 0 10px rgba(0, 229, 255, 0.3)';
+          }, 300);
+        }, index * 100);
+      });
+    }
+    
+    // Update particles color and add special effects
+    updateParticlesForTheme(isDark);
+  }
+  
+  // Update particles for current theme
+  function updateParticlesForTheme(isDark) {
+    const particles = document.querySelectorAll('.particle');
+    
+    particles.forEach((particle, index) => {
+      // Add staggered transition
+      setTimeout(() => {
+        if (isDark) {
+          particle.style.backgroundColor = `rgba(${100 + Math.random() * 100}, 255, ${218 + Math.random() * 37}, ${0.2 + Math.random() * 0.3})`;
+          particle.style.boxShadow = `0 0 ${5 + Math.random() * 10}px rgba(100, 255, 218, 0.3)`;
+        } else {
+          // Light mode particles
+          particle.style.backgroundColor = `rgba(0, ${188 + Math.random() * 40}, 212, ${0.2 + Math.random() * 0.2})`;
+          particle.style.boxShadow = 'none';
+        }
+        
+        // Add a slight animation
+        particle.style.animation = 'none';
+        setTimeout(() => {
+          // Add animation parameters based on theme
+          if (isDark) {
+            particle.style.animation = `float-particle ${10 + Math.random() * 10}s infinite ease-in-out`;
+            particle.style.animationDirection = Math.random() > 0.5 ? 'alternate' : 'alternate-reverse';
+          } else {
+            particle.style.animation = 'float-particle 15s infinite linear';
+          }
+        }, 10);
+      }, index * 10);
+    });
+    
+    // If dark mode and there are fewer than 20 particles, add more for dark theme
+    if (isDark && particles.length < 20) {
+      const container = document.querySelector('.particles-container');
+      if (container) {
+        for (let i = 0; i < 15; i++) {
+          const newParticle = document.createElement('div');
+          newParticle.classList.add('particle');
+          
+          // More interesting particles for dark mode
+          const size = Math.random() * 15 + 5;
+          newParticle.style.width = `${size}px`;
+          newParticle.style.height = `${size}px`;
+          newParticle.style.left = `${Math.random() * 100}%`;
+          newParticle.style.top = `${Math.random() * 100}%`;
+          newParticle.style.backgroundColor = `rgba(${100 + Math.random() * 100}, 255, ${218 + Math.random() * 37}, ${0.2 + Math.random() * 0.3})`;
+          newParticle.style.boxShadow = `0 0 ${5 + Math.random() * 10}px rgba(100, 255, 218, 0.3)`;
+          newParticle.style.animationDelay = `${Math.random() * 5}s`;
+          newParticle.style.animation = `float-particle ${10 + Math.random() * 10}s infinite ease-in-out`;
+          newParticle.style.animationDirection = Math.random() > 0.5 ? 'alternate' : 'alternate-reverse';
+          
+          container.appendChild(newParticle);
+        }
+      }
+    }
+  }
+  
+  // Event listeners
+  toggleSwitch.addEventListener('change', switchTheme);
+  if (toggleSwitchMobile) {
+    toggleSwitchMobile.addEventListener('change', switchTheme);
+  }
+  
+  // Listen for system color scheme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+      toggleSwitch.checked = e.matches;
+      if (toggleSwitchMobile) toggleSwitchMobile.checked = e.matches;
+      document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+      updateHeaderStyles(e.matches);
+      animateDarkModeTransition(e.matches);
+    }
+  });
+}
+
+// Feature detection for touch devices
+const isTouchDevice = () => {
+  return (('ontouchstart' in window) ||
+    (navigator.maxTouchPoints > 0) ||
+    (navigator.msMaxTouchPoints > 0));
+}
+
+// Initialize on document load
 document.addEventListener("DOMContentLoaded", () => {
+  // Add touch device class to body for CSS targeting
+  if (isTouchDevice()) {
+    document.body.classList.add('touch-device');
+  }
+  
   // Add page loader
   const loader = document.createElement("div")
   loader.classList.add("page-loader")
@@ -71,6 +415,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize animations
   initAnimations()
+  
+  // Initialize dark mode
+  setupDarkMode()
+  
+  // Initialize mobile optimizations
+  initMobileOptimizations()
 })
 
 // Initialize animations
@@ -130,7 +480,7 @@ function createParticleBackground() {
             overflow: hidden;
             z-index: 1;
         }
-        .particle {}
+        .particle {
             position: absolute;
             background-color: rgba(0, 188, 212, 0.3);
             border-radius: 50%;
@@ -190,16 +540,22 @@ navLinksItems.forEach((item) => {
 
 // Enhanced sticky header
 window.addEventListener("scroll", () => {
+  const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+  const headerBg = isDarkMode ? 'rgba(18, 18, 18, 0.95)' : 'rgba(255, 255, 255, 0.95)';
+  const boxShadow = isDarkMode ? 
+    '0 5px 20px rgba(0, 0, 0, 0.3)' : 
+    '0 5px 20px rgba(0, 188, 212, 0.1)';
+  
   if (window.scrollY > 50) {
-    header.style.padding = "10px 0"
-    header.style.background = "rgba(255, 255, 255, 0.95)"
-    header.style.backdropFilter = "blur(10px)"
-    header.style.boxShadow = "0 5px 20px rgba(0, 188, 212, 0.1)"
+    header.style.padding = "10px 0";
+    header.style.background = headerBg;
+    header.style.backdropFilter = "blur(10px)";
+    header.style.boxShadow = boxShadow;
   } else {
-    header.style.padding = "15px 0"
-    header.style.background = "rgba(255, 255, 255, 0.95)"
-    header.style.backdropFilter = "blur(10px)"
-    header.style.boxShadow = "0 5px 20px rgba(0, 188, 212, 0.1)"
+    header.style.padding = "15px 0";
+    header.style.background = headerBg;
+    header.style.backdropFilter = "blur(10px)";
+    header.style.boxShadow = boxShadow;
   }
 })
 
@@ -730,4 +1086,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Run scroll reveal on scroll
 window.addEventListener("scroll", scrollReveal)
+
+// Mobile-specific optimizations
+function initMobileOptimizations() {
+  if (isTouchDevice()) {
+    // Fix 300ms tap delay
+    const fastClick = document.createElement('script');
+    fastClick.src = 'https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js';
+    document.head.appendChild(fastClick);
+    fastClick.onload = function() {
+      FastClick.attach(document.body);
+    };
+    
+    // Better handling of fixed elements when keyboard is shown
+    const formInputs = document.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        document.body.classList.add('input-focused');
+      });
+      input.addEventListener('blur', () => {
+        document.body.classList.remove('input-focused');
+      });
+    });
+    
+    // Improve scrolling performance
+    let scrollingTimeout;
+    window.addEventListener('scroll', () => {
+      if (!document.body.classList.contains('is-scrolling')) {
+        document.body.classList.add('is-scrolling');
+      }
+      
+      clearTimeout(scrollingTimeout);
+      scrollingTimeout = setTimeout(() => {
+        document.body.classList.remove('is-scrolling');
+      }, 100);
+    }, { passive: true });
+  }
+  
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (e) => {
+    const nav = document.querySelector('nav');
+    const hamburger = document.querySelector('.hamburger');
+    
+    if (navLinks.classList.contains('active') && 
+        !nav.contains(e.target) && 
+        !hamburger.contains(e.target)) {
+      navLinks.classList.remove('active');
+      hamburger.classList.remove('active');
+      
+      const spans = hamburger.querySelectorAll('span');
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
+    }
+  });
+}
 
