@@ -3,7 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Professional portfolio showcasing my projects and skills">
+    <meta name="theme-color" content="#00BCD4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Aryan Kandpal | Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,7 +27,11 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease, background-color 0.5s ease;
+        }
+
+        [data-theme="dark"] .preloader {
+            background-color: #121212;
         }
 
         .preloader.fade-out {
@@ -37,6 +46,12 @@
             border-top: 5px solid #00BCD4;
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            transition: border-color 0.5s ease;
+        }
+
+        [data-theme="dark"] .loader {
+            border-color: #212121;
+            border-top-color: #00e5ff;
         }
 
         @keyframes spin {
@@ -102,7 +117,30 @@
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <!-- Add theme switch for mobile menu -->
+                    <li class="theme-switch-mobile-container">
+                        <div class="theme-switch-mobile">
+                            <label class="theme-switch" for="checkbox-mobile" title="Toggle dark/light mode">
+                                <input type="checkbox" id="checkbox-mobile" />
+                                <div class="slider">
+                                    <i class="fas fa-sun icon sun-icon"></i>
+                                    <i class="fas fa-moon icon moon-icon"></i>
+                                </div>
+                            </label>
+                            <span class="theme-label"></span>
+                        </div>
+                    </li>
                 </ul>
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="checkbox" title="Toggle dark/light mode">
+                        <input type="checkbox" id="checkbox" />
+                        <div class="slider">
+                            <i class="fas fa-sun icon sun-icon"></i>
+                            <i class="fas fa-moon icon moon-icon"></i>
+                        </div>
+                    </label>
+                    <span class="theme-label"></span>
+                </div>
                 <div class="hamburger">
                     <span></span>
                     <span></span>
@@ -120,7 +158,8 @@
                     <h1>Hi, I'm Aryan Kandpal</h1>
                 </span>
                 <h2>Web Developer</h2>
-                <p>Transforming ideas into powerful, scalable, and visually stunning web solutions with a passion for problem-solving.</p>
+                <p>Transforming ideas into powerful, scalable, and visually stunning web solutions with a passion for
+                    problem-solving.</p>
                 <div class="cta-buttons">
                     <a href="#projects" class="btn primary-btn">View My Work</a>
                     <a href="#contact" class="btn secondary-btn">Contact Me</a>
@@ -153,7 +192,7 @@
                 </div>
                 <div class="about-text">
                     <h3>Who am I?</h3>
-                    <p>I'm a passionate Web Developer from Haldwani, Uttarakhand, with a strong interest in building
+                    <p>I'm a passionate Web Developer with a strong interest in building
                         modern, responsive, and user-friendly web applications.</p>
                     <p>My journey in web development started with my curiosity about how websites work. Over time, I
                         have honed my skills in front-end and back-end development, working with technologies like HTML,
