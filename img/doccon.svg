@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300" viewBox="0 0 500 300">
+  <style>
+    .bg { fill: var(--body-color); }
+    .doc { fill: var(--primary-light); stroke: var(--primary-dark); stroke-width: 2; }
+    .text { fill: var(--text-color); font-family: Arial, sans-serif; font-size: 14px; }
+    .arrow { fill: var(--accent-color); }
+    .edit { fill: var(--secondary-color); }
+    .shadow { filter: drop-shadow(2px 2px 4px var(--border-color)); }
+  </style>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Document Icons -->
+  <rect x="50" y="80" width="80" height="100" rx="10" class="doc shadow"/>
+  <rect x="370" y="80" width="80" height="100" rx="10" class="doc shadow"/>
+
+  <!-- Text on Documents -->
+  <text x="65" y="130" class="text">DOCX</text>
+  <text x="385" y="130" class="text">PDF</text>
+
+  <!-- Conversion Arrow -->
+  <polygon points="150,130 210,130 200,120 230,145 200,170 210,160 150,160" class="arrow"/>
+
+  <!-- Editing Icon (Pencil) -->
+  <g transform="translate(260, 110)" class="edit shadow">
+    <rect x="10" y="30" width="10" height="40" rx="2" transform="rotate(-45 15 50)"/>
+    <polygon points="15,20 20,25 5,40 0,35" />
+  </g>
+
+  <!-- Labels -->
+  <text x="60" y="200" class="text">Source Document</text>
+  <text x="370" y="200" class="text">Converted File</text>
+  <text x="250" y="180" class="text">Edit</text>
+</svg>
