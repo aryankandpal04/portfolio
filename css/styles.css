@@ -2679,3 +2679,11 @@ body:not([data-theme-visited="true"]) .theme-switch-wrapper::after {
   }
 }
 
+main {
+  display: block;
+}
+img[width][height] {
+  max-width: 100%;
+  height: auto;
+}
+

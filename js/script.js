@@ -1142,3 +1142,31 @@ function initMobileOptimizations() {
   });
 }
 
+// --- Defer non-critical JS for mobile ---
+function deferNonCriticalJS() {
+  // Animations, particles, skills, projects, contact, scroll, etc.
+  if (window.innerWidth <= 600) {
+    // Animations and particles
+    initAnimations();
+    // Animate on scroll
+    animateOnScroll();
+    // Parallax, scroll reveal, etc.
+    scrollReveal();
+    // Any other non-critical JS
+  }
+}
+
+if (window.innerWidth <= 600) {
+  window.addEventListener('load', () => {
+    setTimeout(deferNonCriticalJS, 100);
+  });
+  // Also trigger on first scroll for extra safety
+  let triggered = false;
+  window.addEventListener('scroll', () => {
+    if (!triggered) {
+      deferNonCriticalJS();
+      triggered = true;
+    }
+  }, { once: true });
+}
+
