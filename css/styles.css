@@ -756,31 +756,6 @@ nav {
   color: var(--dark-color);
 }
 
-.skill-progress {
-  height: 10px;
-  background-color: var(--light-color);
-  border-radius: 10px;
-  margin-bottom: 10px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.progress-bar {
-  height: 100%;
-  background: var(--gradient-1);
-  border-radius: 10px;
-  position: relative;
-  width: 0;
-  transition: width 1.5s ease-in-out;
-  box-shadow: 0 0 5px rgba(0, 188, 212, 0.2);
-}
-
-.skill-percentage {
-  font-weight: 600;
-  color: var(--primary-color);
-}
-
 /* Projects Section */
 .projects {
   background-color: white;
